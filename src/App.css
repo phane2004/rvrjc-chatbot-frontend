@@ -14,7 +14,7 @@ body {
     color 0.5s ease;
   margin: 0;
   padding: 0;
-  background-image: url(C:\Users\Phanindra\OneDrive\Desktop\projects\chatbot\server\client\public\image.png); /* path relative to public folder */
+  background-image: url("/image.png"); /* path relative to public folder */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
