@@ -77,83 +77,92 @@ function App() {
   const handleFocus = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const backgroundStyle = {
+  backgroundImage: `url(${process.env.PUBLIC_URL + '/image.png'})`,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed',
+};
 
   return (
-    <div className="main-wrapper">
-      <header className="app-header">
-        <img src="/logo.jpg" alt="College Logo" className="logo" />
-        <h1 className="chatbot-title">College Enquiry Chatbot</h1>
-      </header>
+    <div style={backgroundStyle}>
+      <div className="main-wrapper">
+        <header className="app-header">
+          <img src="/logo.jpg" alt="College Logo" className="logo" />
+          <h1 className="chatbot-title">College Enquiry Chatbot</h1>
+        </header>
 
-      <div className="theme-selector">
-        <select onChange={(e) => setTheme(e.target.value)} value={theme}>
-          <option value="light">Light </option>
-          <option value="dark">Dark </option>
-          <option value="college">College </option>
-        </select>
-      </div>
+        <div className="theme-selector">
+          <select onChange={(e) => setTheme(e.target.value)} value={theme}>
+            <option value="light">Light </option>
+            <option value="dark">Dark </option>
+            <option value="college">College </option>
+          </select>
+        </div>
 
-      <div className="chat-container">
-        <div className="chat-box">
-          {messages.map((msg, i) => (
-            <div key={i} className={`message-row ${msg.sender}`}>
-              <img
-                src={msg.sender === "bot" ? "/logo.jpg" : "/user-avatar.png"}
-                alt={`${msg.sender} avatar`}
-                className="avatar"
-              />
-              <div 
-              className={`message ${msg.sender}`} 
-              dangerouslySetInnerHTML={{ __html: msg.text }} />
-            </div>
-          ))}
+        <div className="chat-container">
+          <div className="chat-box">
+            {messages.map((msg, i) => (
+              <div key={i} className={`message-row ${msg.sender}`}>
+                <img
+                  src={msg.sender === "bot" ? "/logo.jpg" : "/user-avatar.png"}
+                  alt={`${msg.sender} avatar`}
+                  className="avatar"
+                />
+                <div 
+                className={`message ${msg.sender}`} 
+                dangerouslySetInnerHTML={{ __html: msg.text }} />
+              </div>
+            ))}
 
-          {isTyping && (
-            <div className="message bot typing">Bot is typing...</div>
-          )}
-          <div ref={chatEndRef} />
-          {showScrollButton && (
-            <button
-              className="scroll-to-bottom"
-              onClick={() => {
-                chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-              }}
-              aria-label="Scroll to bottom"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="white"
-                viewBox="0 0 24 24"
-                className="arrow-icon"
+            {isTyping && (
+              <div className="message bot typing">Bot is typing...</div>
+            )}
+            <div ref={chatEndRef} />
+            {showScrollButton && (
+              <button
+                className="scroll-to-bottom"
+                onClick={() => {
+                  chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+                }}
+                aria-label="Scroll to bottom"
               >
-                <path d="M12 16.5l-6-6h12l-6 6z" />
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="white"
+                  viewBox="0 0 24 24"
+                  className="arrow-icon"
+                >
+                  <path d="M12 16.5l-6-6h12l-6 6z" />
+                </svg>
+              </button>
+            )}
+          </div>
+
+          <div className="suggestions-wrapper">
+            {["Courses Offered", "Fee Structure", "Results", "Placements"].map((sug, i) => (
+              <span key={i} className="chip" onClick={() => handleSend(sug)}>
+                {sug}
+              </span>
+            ))}
+          </div>
+
+          <div className="input-wrapper">
+            <input
+              type="text"
+              placeholder="Ask your question..."
+              value={input}
+              onChange={handleInputChange}
+              onKeyPress={handleKeyPress}
+              onFocus={handleFocus}
+            />
+            <button onClick={() => handleSend()} aria-label="Send message">
+              &#9658;
             </button>
-          )}
-        </div>
-
-        <div className="suggestions-wrapper">
-          {["Courses Offered", "Fee Structure", "Results", "Placements"].map((sug, i) => (
-            <span key={i} className="chip" onClick={() => handleSend(sug)}>
-              {sug}
-            </span>
-          ))}
-        </div>
-
-        <div className="input-wrapper">
-          <input
-            type="text"
-            placeholder="Ask your question..."
-            value={input}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-            onFocus={handleFocus}
-          />
-          <button onClick={() => handleSend()} aria-label="Send message">
-            &#9658;
-          </button>
+          </div>
         </div>
       </div>
     </div>
